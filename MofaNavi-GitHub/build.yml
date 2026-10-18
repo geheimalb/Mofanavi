@@ -1,0 +1,31 @@
+name: Build IPA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Projekt erzeugen
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: App bauen (unsigniert)
+        run: |
+          xcodebuild -project MofaNavi.xcodeproj -scheme MofaNavi \
+            -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build
+      - name: IPA packen
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/MofaNavi.app Payload/
+          zip -r MofaNavi.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MofaNavi-ipa
+          path: MofaNavi.ipa

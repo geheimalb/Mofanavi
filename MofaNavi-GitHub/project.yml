@@ -1,0 +1,27 @@
+name: MofaNavi
+options:
+  bundleIdPrefix: de.mofanavi
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  MofaNavi:
+    type: application
+    platform: iOS
+    sources:
+      - MofaNavi
+    info:
+      path: MofaNavi/Info.plist
+      properties:
+        CFBundleDisplayName: Mofa Navi
+        UILaunchScreen: {}
+        NSLocationWhenInUseUsageDescription: Für die Navigation und die Streckenprüfung.
+        UIBackgroundModes:
+          - location
+          - audio
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.mofanavi.app
+        SWIFT_VERSION: "5.0"
+        CODE_SIGNING_ALLOWED: "NO"
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_IDENTITY: ""
